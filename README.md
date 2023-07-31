@@ -29,14 +29,19 @@ Things you may want to cover:
 
 | Column             | Type       | Options     |
 | ------------------ | ------     | -----------  |
-| last name          | string     | null: false  |
-| family name        | string     | null: false  |
+| nickname           | string     | null: false  |
 | email              | string     | unique: true |
 | encrypted_password | string     | null: false  |
+| last_name          | string     | null: false  |
+| family_name        | string     | null: false  |
 | last name_kana     | string     | null: false  |
-| family name_kana   | string     | null: false  |
-| birthday           | data       | null: false  |
+| family_name_kana   | string     | null: false  |
+| birthday           | date       | null: false  |
 
+has_many :items
+has_many :shopping_address
+has_many :purchase_record
+=
 
 
 ## items テーブル
@@ -44,7 +49,7 @@ Things you may want to cover:
 | Column               | Type    | Options     |
 | -------------------- | ------- | ----------- |；
 | item_name            | string  | null: false |
-| item_description     | string  | null: false |
+| item_description     | text    | null: false |
 | item_details         | string  | null: false |
 | item_price           | integer | null: false |
 | seller_id            | integer | null: false |
@@ -54,6 +59,8 @@ Things you may want to cover:
 | shipping_origin      | string  | null: false |
 | delivery_time        | integer | null: false |
 
+belongs_to :users
+
 
 
 
@@ -61,14 +68,21 @@ Things you may want to cover:
 
 | Column           | Type       | Options     |
 | ---------------- | ---------- | ----------- |
-| user_id          | references | null: false |
-| address          | references | null: false |
-| card information | references | null: false |
+| postal_code      | string     | null: false |
+| prefecture       | string     | null: false |
+| city             | string     | null: false |
+| address          | string     | null: false |
+| Building_name    | string     | null: false |
 | tel              | integer    | null: false |
+
+belongs_to :users
 
 ## purchase record テーブル
 
 | Column         | Type       | Options                        |
 | -------------- | ---------- | ------------------------------ |
-| purchased_item | references | ------------------------------ |
-| ongoing_item   | references | ------------------------------ |
+| user_id        | references | -------------------------------|
+| purchased_item | string     | ------------------------------ |
+| ongoing_item   | string     | ------------------------------ |
+
+belongs_to :users

@@ -45,33 +45,35 @@ has_many :purchase_records
 
 ## items テーブル
 
-| Column               | Type    | Options     |
-| -------------------- | ------- | ----------- |；
-| item_name            | string  | null: false |
-| item_description     | text    | null: false |
-| item_price           | integer | null: false |
-| seller_id            | integer | null: false |
-| category_id          | integer | null: false |
-| item_Condition       | string  | null: false |
-| shipping_fee         | integer | null: false |
-| shipping_origin      | string  | null: false |
-| delivery_time        | integer | null: false |
+| Column               | Type       | Options     |
+| -------------------- | -------    | ----------- |；
+| name                 | string     | null: false |
+| description          | text       | null: false |
+| details              | string     | null: false |
+| price                | integer    | null: false |
+| user                 | references | null: false |
+| category_id          | integer    | null: false |
+| condition_id         | integer    | null: false |
+| shipping_fee_id      | integer    | null: false |
+| prefecture_id        | integer    | null: false |
+| delivery_time_id     | integer    | null: false |
 
 belongs_to :user
+belongs_to :purchase_record
 
 
 
-
-## shipping_address テーブル
+## shipping_addresses テーブル
 
 | Column           | Type       | Options     |
 | ---------------- | ---------- | ----------- |
-| postal_code      | references | null: false |
-| prefecture       | references | null: false |
-| city             | references | null: false |
-| address          | references | null: false |
-| Building_name    | references | null: false |
-| tel              | integer    | null: false |
+| postal_code      | string     | null: false |
+| prefecture_id    | integer    | null: false |
+| city             | string     | null: false |
+| address          | string     | null: false |
+| building_name    | string     | ----------- |
+| purchase_record  | references | null: false |
+| tel              | string     | null: false |
 
 has_many :purchase_records
 
@@ -79,9 +81,9 @@ has_many :purchase_records
 
 | Column         | Type       | Options                        |
 | -------------- | ---------- | ------------------------------ |
-| user_id        | references | -------------------------------|
-| purchased_item | references | ------------------------------ |
-| ongoing_item   | references | ------------------------------ |
+| user           | references | null: false, foreign_key: true |
+| item           | references | null: false, foreign_key: true |
 
 belongs_to :user
 belongs_to :shipping_address
+has_many :items

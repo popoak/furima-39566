@@ -27,20 +27,19 @@ Things you may want to cover:
 
 ## users テーブル
 
-| Column             | Type       | Options     |
-| ------------------ | ------     | -----------  |
-| nickname           | string     | null: false  |
-| email              | string     | unique: true |
-| encrypted_password | string     | null: false  |
-| last_name          | string     | null: false  |
-| family_name        | string     | null: false  |
-| last name_kana     | string     | null: false  |
-| family_name_kana   | string     | null: false  |
-| birthday           | date       | null: false  |
+| Column             | Type       | Options                  |
+| ------------------ | ------     | ------------------------ |
+| nickname           | string     | null: false              |
+| email              | string     | null: false,unique: true |
+| encrypted_password | string     | null: false              |
+| last_name          | string     | null: false              |
+| family_name        | string     | null: false              |
+| last_name_kana     | string     | null: false              |
+| family_name_kana   | string     | null: false              |
+| birthday           | date       | null: false              |
 
 has_many :items
-has_many :shopping_address
-has_many :purchase_record
+has_many :purchase_records
 =
 
 
@@ -50,7 +49,6 @@ has_many :purchase_record
 | -------------------- | ------- | ----------- |；
 | item_name            | string  | null: false |
 | item_description     | text    | null: false |
-| item_details         | string  | null: false |
 | item_price           | integer | null: false |
 | seller_id            | integer | null: false |
 | category_id          | integer | null: false |
@@ -59,30 +57,31 @@ has_many :purchase_record
 | shipping_origin      | string  | null: false |
 | delivery_time        | integer | null: false |
 
-belongs_to :users
+belongs_to :user
 
 
 
 
-## shipping address テーブル
+## shipping_address テーブル
 
 | Column           | Type       | Options     |
 | ---------------- | ---------- | ----------- |
-| postal_code      | string     | null: false |
-| prefecture       | string     | null: false |
-| city             | string     | null: false |
-| address          | string     | null: false |
-| Building_name    | string     | null: false |
+| postal_code      | references | null: false |
+| prefecture       | references | null: false |
+| city             | references | null: false |
+| address          | references | null: false |
+| Building_name    | references | null: false |
 | tel              | integer    | null: false |
 
-belongs_to :users
+has_many :purchase_records
 
-## purchase record テーブル
+## purchase_records テーブル
 
 | Column         | Type       | Options                        |
 | -------------- | ---------- | ------------------------------ |
 | user_id        | references | -------------------------------|
-| purchased_item | string     | ------------------------------ |
-| ongoing_item   | string     | ------------------------------ |
+| purchased_item | references | ------------------------------ |
+| ongoing_item   | references | ------------------------------ |
 
-belongs_to :users
+belongs_to :user
+belongs_to :shipping_address

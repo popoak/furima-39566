@@ -74,7 +74,7 @@ has_one :purchase_record
 | purchase_record  | references | null: false |
 | tel              | string     | null: false |
 
-has_one :purchase_record
+belongs_to :purchase_record
 
 ## purchase_records テーブル
 
@@ -84,5 +84,6 @@ has_one :purchase_record
 | item           | references | null: false, foreign_key: true |
 
 belongs_to :user
-belongs_to :shipping_address
+has_one :shipping_address
 belongs_to :item
+===

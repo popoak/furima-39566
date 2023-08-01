@@ -40,7 +40,7 @@ Things you may want to cover:
 
 has_many :items
 has_many :purchase_records
-=
+
 
 
 ## items テーブル
@@ -58,7 +58,7 @@ has_many :purchase_records
 | delivery_time_id     | integer    | null: false |
 
 belongs_to :user
-belongs_to :purchase_record
+has_one :purchase_record
 
 
 
@@ -74,7 +74,7 @@ belongs_to :purchase_record
 | purchase_record  | references | null: false |
 | tel              | string     | null: false |
 
-has_one :purchase_records
+has_one :purchase_record
 
 ## purchase_records テーブル
 
@@ -85,4 +85,4 @@ has_one :purchase_records
 
 belongs_to :user
 belongs_to :shipping_address
-belongs_to :items
+belongs_to :item

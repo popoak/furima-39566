@@ -49,7 +49,6 @@ has_many :purchase_records
 | -------------------- | -------    | ----------- |；
 | name                 | string     | null: false |
 | description          | text       | null: false |
-| details              | string     | null: false |
 | price                | integer    | null: false |
 | user                 | references | null: false |
 | category_id          | integer    | null: false |
@@ -75,7 +74,7 @@ belongs_to :purchase_record
 | purchase_record  | references | null: false |
 | tel              | string     | null: false |
 
-has_many :purchase_records
+has_one :purchase_records
 
 ## purchase_records テーブル
 
@@ -86,4 +85,4 @@ has_many :purchase_records
 
 belongs_to :user
 belongs_to :shipping_address
-has_many :items
+belongs_to :items

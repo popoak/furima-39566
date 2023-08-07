@@ -8,7 +8,6 @@ class Item < ApplicationRecord
   belongs_to :user
   has_one_attached :image
 
-  validates :user, presence: true
   #ジャンルの選択が「---」の時は保存できないようにする
   validates :category_id, numericality: { greater_than_or_equal_to: 2, message: "must be greater than or equal to 2" } 
   validates :condition_id, numericality: { greater_than_or_equal_to: 2, message: "must be greater than or equal to 2" }

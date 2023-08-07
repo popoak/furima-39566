@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Item, type: :model do
   before do
     user = FactoryBot.create(:user)
-    @item = FactoryBot.build(:item)  # itemのインスタンス生成
+    @item = FactoryBot.build(:item, user: user)
   end
 
 # RSpec.describe Item, type: :model do
@@ -16,6 +16,7 @@ RSpec.describe Item, type: :model do
   describe '出品機能' do
     context '出品機能が保存できる場合' do
       it '全ての項目が存在すれば保存できる' do
+        # ここで画像ファイルを添付する
         expect(@item).to be_valid
       end
     end
@@ -82,7 +83,7 @@ RSpec.describe Item, type: :model do
       expect(@item.errors.full_messages).to include("Price は¥300〜¥9,999,999の範囲で入力してください")
     end
     it 'imageが空では登録できない' do
-      @item.image = ''  # nameの値を空にする
+      @item.image = nil  # 画像の添付を空にする
       @item.valid?
       expect(@item.errors.full_messages).to include("Image can't be blank")
     end

@@ -45,17 +45,17 @@ has_many :purchase_records
 
 ## items テーブル
 
-| Column               | Type       | Options     |
-| -------------------- | -------    | ----------- |；
-| name                 | string     | null: false |
-| description          | text       | null: false |
-| price                | integer    | null: false |
-| user                 | references | null: false |
-| category_id          | integer    | null: false |
-| condition_id         | integer    | null: false |
-| shipping_fee_id      | integer    | null: false |
-| prefecture_id        | integer    | null: false |
-| delivery_time_id     | integer    | null: false |
+| Column               | Type       | Options                        |
+| -------------------- | -------    | -----------                    |；
+| name                 | string     | null: false                    |
+| description          | text       | null: false                    |
+| price                | integer    | null: false                    |
+| user                 | references | null: false, foreign_key: true |
+| category_id          | integer    | null: false                    |
+| condition_id         | integer    | null: false                    |
+| shipping_fee_id      | integer    | null: false                    |
+| prefecture_id        | integer    | null: false                    |
+| delivery_time_id     | integer    | null: false                    |
 
 belongs_to :user
 has_one :purchase_record

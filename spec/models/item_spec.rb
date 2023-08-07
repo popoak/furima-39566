@@ -81,6 +81,11 @@ RSpec.describe Item, type: :model do
       @item.valid?
       expect(@item.errors.full_messages).to include("Price は¥300〜¥9,999,999の範囲で入力してください")
     end
+    it 'imageが空では登録できない' do
+      @item.image = ''  # nameの値を空にする
+      @item.valid?
+      expect(@item.errors.full_messages).to include("Image can't be blank")
+    end
   end
 end
 end

@@ -57,15 +57,7 @@ RSpec.describe User, type: :model do
       @user.password = ''  # passwordの値を半角にする
       @user.valid?
       expect(@user.errors.full_messages).to include("Password confirmation doesn't match Password")
-    end   
-
-
-
-
-
-
-
-
+    end 
 
     it 'last_nameが空では登録できない' do
       @user.last_name = ''  # last_nameの値を空にする

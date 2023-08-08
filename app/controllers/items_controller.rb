@@ -1,6 +1,11 @@
 class ItemsController < ApplicationController
   before_action :require_login, only: [:new, :create]
 
+
+  def index
+    @items = Item.order(created_at: :desc)
+  end
+
   def new
     @item = Item.new
   end
@@ -18,6 +23,13 @@ class ItemsController < ApplicationController
 
   def item_params
     params.require(:item).permit(:name, :description, :price, :category_id, :condition_id, :shipping_fee_id, :prefecture_id, :delivery_time_id, :image).merge(user_id: current_user.id)
+  end
+
+  def require_login
+    unless user_signed_in?
+      flash[:alert] = "ログインが必要です"
+      redirect_to new_user_session_path
+    end
   end
 end
 

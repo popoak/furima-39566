@@ -15,10 +15,10 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def require_login
-    unless user_signed_in?
-      flash[:alert] = "ログインが必要です"
-      redirect_to new_user_session_path
-    end
-  end
+  # def require_login
+  #   unless user_signed_in?
+  #     flash[:alert] = "ログインが必要です"
+  #     redirect_to new_user_session_path
+  #   end
+  # end
 end

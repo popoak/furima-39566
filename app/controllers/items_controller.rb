@@ -1,6 +1,6 @@
 class ItemsController < ApplicationController
-  before_action :require_login, only: [:new, :create]
-
+  before_action :require_login, only: [:new, :create, :edit, :update]
+  before_action :set_item, only: [:edit, :update]
 
   def index
     @items = Item.order(created_at: :desc)
@@ -29,6 +29,46 @@ class ItemsController < ApplicationController
     end
   end
 
+  def edit
+    if user_signed_in? && @item.user == current_user
+      @categories = Category.all
+      @conditions = Condition.all
+      @shipping_fees = ShippingFee.all
+      @prefectures = Prefecture.all
+      @delivery_times = DeliveryTime.all
+    else
+      redirect_to root_path, alert: '自分が出品した商品以外は編集できません。'
+    end
+  end
+
+  def update
+    old_price = @item.price
+
+    if params[:item][:image].present?
+      @item.image.attach(params[:item][:image])
+    end
+
+    if @item.update(item_params)
+      new_price = @item.price
+
+      if old_price != new_price
+        # 販売手数料の計算ロジックをここに記述します（例として10%の手数料とします）
+        sales_fee_percentage = 0.10
+        sales_fee = (new_price * sales_fee_percentage).ceil
+        @item.update(sales_fee: sales_fee)
+      end
+
+      redirect_to item_path(@item), notice: '商品が更新されました。'
+    else
+      @categories = Category.all
+      @conditions = Condition.all
+      @shipping_fees = ShippingFee.all
+      @prefectures = Prefecture.all
+      @delivery_times = DeliveryTime.all
+      render :edit
+    end
+  end
+
   private
 
   def item_params
@@ -41,7 +81,8 @@ class ItemsController < ApplicationController
       redirect_to new_user_session_path
     end
   end
+
+  def set_item
+    @item = Item.find(params[:id])
+  end
 end
-
-
-

@@ -1,6 +1,7 @@
 class ItemsController < ApplicationController
   before_action :require_login, only: [:new, :create, :edit, :update]
-  before_action :set_item, only: [:edit, :update]
+  before_action :set_item, only: [:show, :edit, :update, :destroy]
+
 
   def index
     @items = Item.order(created_at: :desc)
@@ -20,9 +21,7 @@ class ItemsController < ApplicationController
   end
 
   def show
-    @item = Item.find(params[:id])
-
-    if user_signed_in? && @item.user == current_user
+    if  if  @item.user == current_user
       @is_seller_item = true
     else
       @is_seller_item = false
@@ -44,7 +43,6 @@ class ItemsController < ApplicationController
     end
   end
   def destroy
-    @item = Item.find(params[:id])
     @item.destroy
     redirect_to root_path, notice: '商品が削除されました。'
   end
@@ -65,4 +63,6 @@ class ItemsController < ApplicationController
   def set_item
     @item = Item.find(params[:id])
   end
+
+
 end

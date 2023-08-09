@@ -1,6 +1,7 @@
 class ItemsController < ApplicationController
-  before_action :require_login, only: [:new, :create, :edit, :update]
-  before_action :set_item, only: [:edit, :update]
+  before_action :require_login, only: [:new, :create, :edit, :update, :destroy]
+  before_action :set_item, only: [:show, :edit, :update, :destroy]
+
 
   def index
     @items = Item.order(created_at: :desc)
@@ -20,9 +21,7 @@ class ItemsController < ApplicationController
   end
 
   def show
-    @item = Item.find(params[:id])
-
-    if user_signed_in? && @item.user == current_user
+    if  @item.user == current_user
       @is_seller_item = true
     else
       @is_seller_item = false
@@ -30,42 +29,26 @@ class ItemsController < ApplicationController
   end
 
   def edit
-    if user_signed_in? && @item.user == current_user
-      @categories = Category.all
-      @conditions = Condition.all
-      @shipping_fees = ShippingFee.all
-      @prefectures = Prefecture.all
-      @delivery_times = DeliveryTime.all
+    if @item.user == current_user
     else
       redirect_to root_path, alert: '自分が出品した商品以外は編集できません。'
     end
   end
 
   def update
-    old_price = @item.price
-
-    if params[:item][:image].present?
-      @item.image.attach(params[:item][:image])
-    end
-
     if @item.update(item_params)
-      new_price = @item.price
-
-      if old_price != new_price
-        # 販売手数料の計算ロジックをここに記述します（例として10%の手数料とします）
-        sales_fee_percentage = 0.10
-        sales_fee = (new_price * sales_fee_percentage).ceil
-        @item.update(sales_fee: sales_fee)
-      end
-
       redirect_to item_path(@item), notice: '商品が更新されました。'
-    else
-      @categories = Category.all
-      @conditions = Condition.all
-      @shipping_fees = ShippingFee.all
-      @prefectures = Prefecture.all
-      @delivery_times = DeliveryTime.all
+     else
       render :edit
+    end
+  end
+  
+  def destroy
+    if @item.user == current_user
+      @item.destroy
+      redirect_to root_path, notice: '商品が削除されました。'
+    else
+      redirect_to root_path, alert: '自分が出品した商品以外は削除できません。'
     end
   end
 
@@ -85,4 +68,6 @@ class ItemsController < ApplicationController
   def set_item
     @item = Item.find(params[:id])
   end
+
+
 end

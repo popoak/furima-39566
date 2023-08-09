@@ -21,7 +21,7 @@ class ItemsController < ApplicationController
   end
 
   def show
-    if  if  @item.user == current_user
+    if  @item.user == current_user
       @is_seller_item = true
     else
       @is_seller_item = false
@@ -29,7 +29,7 @@ class ItemsController < ApplicationController
   end
 
   def edit
-    if user_signed_in? && @item.user == current_user
+    if @item.user == current_user
     else
       redirect_to root_path, alert: '自分が出品した商品以外は編集できません。'
     end
@@ -42,9 +42,14 @@ class ItemsController < ApplicationController
       render :edit
     end
   end
+  
   def destroy
-    @item.destroy
-    redirect_to root_path, notice: '商品が削除されました。'
+    if @item.user == current_user
+      @item.destroy
+      redirect_to root_path, notice: '商品が削除されました。'
+    else
+      redirect_to root_path, alert: '自分が出品した商品以外は削除できません。'
+    end
   end
 
   private

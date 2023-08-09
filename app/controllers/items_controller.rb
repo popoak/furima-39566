@@ -1,6 +1,6 @@
 class ItemsController < ApplicationController
-  before_action :require_login, only: [:new, :create]
   before_action :require_login, only: [:new, :create, :edit, :update]
+  before_action :set_item, only: [:edit, :update]
 
   def index
     @items = Item.order(created_at: :desc)
@@ -30,9 +30,8 @@ class ItemsController < ApplicationController
   end
 
   def edit
-    @item = Item.find(params[:id])
     if user_signed_in? && @item.user == current_user
-    @categories = Category.all
+      @categories = Category.all
       @conditions = Condition.all
       @shipping_fees = ShippingFee.all
       @prefectures = Prefecture.all
@@ -43,7 +42,6 @@ class ItemsController < ApplicationController
   end
 
   def update
-    @item = Item.find(params[:id])
     old_price = @item.price
 
     if params[:item][:image].present?
@@ -82,5 +80,9 @@ class ItemsController < ApplicationController
       flash[:alert] = "ログインが必要です"
       redirect_to new_user_session_path
     end
+  end
+
+  def set_item
+    @item = Item.find(params[:id])
   end
 end

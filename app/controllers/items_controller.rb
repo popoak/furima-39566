@@ -31,42 +31,22 @@ class ItemsController < ApplicationController
 
   def edit
     if user_signed_in? && @item.user == current_user
-      @categories = Category.all
-      @conditions = Condition.all
-      @shipping_fees = ShippingFee.all
-      @prefectures = Prefecture.all
-      @delivery_times = DeliveryTime.all
     else
       redirect_to root_path, alert: '自分が出品した商品以外は編集できません。'
     end
   end
 
   def update
-    old_price = @item.price
-
-    if params[:item][:image].present?
-      @item.image.attach(params[:item][:image])
-    end
-
     if @item.update(item_params)
-      new_price = @item.price
-
-      if old_price != new_price
-        # 販売手数料の計算ロジックをここに記述します（例として10%の手数料とします）
-        sales_fee_percentage = 0.10
-        sales_fee = (new_price * sales_fee_percentage).ceil
-        @item.update(sales_fee: sales_fee)
-      end
-
       redirect_to item_path(@item), notice: '商品が更新されました。'
-    else
-      @categories = Category.all
-      @conditions = Condition.all
-      @shipping_fees = ShippingFee.all
-      @prefectures = Prefecture.all
-      @delivery_times = DeliveryTime.all
+     else
       render :edit
     end
+  end
+  def destroy
+    @item = Item.find(params[:id])
+    @item.destroy
+    redirect_to root_path, notice: '商品が削除されました。'
   end
 
   private

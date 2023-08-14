@@ -7,6 +7,7 @@ class Item < ApplicationRecord
   belongs_to :delivery_time
   belongs_to :user
   has_one_attached :image
+  has_one :purchase
 
   #ジャンルの選択が「---」の時は保存できないようにする
   validates :category_id, numericality: { greater_than_or_equal_to: 2, message: "must be greater than or equal to 2" } 

@@ -39,7 +39,7 @@ Things you may want to cover:
 | birthday           | date       | null: false              |
 
 has_many :items
-has_many :purchase_records
+has_many :purchases
 
 
 
@@ -58,7 +58,7 @@ has_many :purchase_records
 | delivery_time_id     | integer    | null: false                    |
 
 belongs_to :user
-has_one :purchase_record
+has_one :purchase
 
 
 
@@ -71,12 +71,12 @@ has_one :purchase_record
 | city             | string     | null: false |
 | address          | string     | null: false |
 | building_name    | string     | ----------- |
-| purchase_record  | references | null: false |
+| purchase         | references | null: false, foreign_key: true |
 | tel              | string     | null: false |
 
-belongs_to :purchase_record
+belongs_to :purchase
 
-## purchase_records テーブル
+## purchases テーブル
 
 | Column         | Type       | Options                        |
 | -------------- | ---------- | ------------------------------ |

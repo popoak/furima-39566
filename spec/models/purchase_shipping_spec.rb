@@ -13,7 +13,7 @@ RSpec.describe PurchaseShipping, type: :model do
         expect(@purchase).to be_valid
       end
       it 'building_nameは空でも保存できること' do
-      @purchase
+      @purchase.building_name = nil
         expect(@purchase).to be_valid
       end
     end
@@ -50,13 +50,9 @@ RSpec.describe PurchaseShipping, type: :model do
         expect(@purchase.errors.full_messages).to include("Address can't be blank")
       end
       it 'prefectureを選択していないと保存できないこと' do
-        @purchase.prefecture_id = nil
+        @purchase.prefecture_id = 1
         expect(@purchase).not_to be_valid
       end
-      it 'building_nameは空でも保存できること' do
-        @purchase
-          expect(@purchase).to be_valid
-        end
       it 'telが空だと保存できないこと' do
         @purchase.tel = nil
         @purchase.valid?

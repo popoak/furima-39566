@@ -33,11 +33,12 @@ class PurchasesController < ApplicationController
   end
 
   def redirect_if_sold
-    item = Item.find(params[:item_id])
-    if item.purchase.present?
+    @item = Item.find(params[:item_id])
+    if @item.user == current_user ||item.purchase.present?
       redirect_to root_path, alert: '購入ページにアクセスできません。'
     end
   end
+
 
   def set_tweet
     @item = Item.find(params[:item_id])

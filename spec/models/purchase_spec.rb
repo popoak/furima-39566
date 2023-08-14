@@ -2,12 +2,18 @@ require 'rails_helper'
 
 RSpec.describe Purchase, type: :model do
   before do
-    @purchase = FactoryBot.build(:purchase)
+    user
+    item
+    @purchase = FactoryBot.build(:purchase_shipping)
   end
 
   describe '商品購入機能' do
     context '内容に問題がない場合' do
       it 'priceとtokenがあれば保存ができること' do
+        expect(@purchase).to be_valid
+      end
+      it '建物名が必須でなくても保存ができる' do
+      @purchase
         expect(@purchase).to be_valid
       end
     end

@@ -53,13 +53,25 @@ RSpec.describe PurchaseShipping, type: :model do
         @purchase.prefecture_id = nil
         expect(@purchase).not_to be_valid
       end
+      it 'building_nameは空でも保存できること' do
+        @purchase
+          expect(@purchase).to be_valid
+        end
       it 'telが空だと保存できないこと' do
         @purchase.tel = nil
         @purchase.valid?
         expect(@purchase.errors.full_messages).to include("Tel can't be blank")
       end
-      it 'telが10桁以上から11桁以内でないと保存できないこと' do
-        @purchase.tel = "123456789012" # 10桁の番号
+      it 'telが9桁以下の場合登録できない' do
+        @purchase.tel = "123456789" # 9桁の番号
+        expect(@purchase).not_to be_valid
+      end
+      it 'telが12桁以上の場合登録できない' do
+        @purchase.tel = "1234567890123" # 12桁の番号
+        expect(@purchase).not_to be_valid
+      end
+      it 'telに半角数字以外が含まれている場合登録できない' do
+        @purchase.tel = "123-4567" # ハイフンを含む番号
         expect(@purchase).not_to be_valid
       end
       it 'userが紐付いていないと保存できないこと' do

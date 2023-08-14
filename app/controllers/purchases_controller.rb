@@ -1,16 +1,16 @@
 class PurchasesController < ApplicationController
   before_action :authenticate_user!
   before_action :redirect_if_sold, only: [:index]
+  before_action :set_tweet, only: [:index, :create]
 
   def index
-    @item = Item.find(params[:item_id])  # 購入した商品の情報を取得
+    gon.public_key = ENV["PAYJP_PUBLIC_KEY"]
     @payment_amount = @item.price  # 支払金額を計算（ここでは単純に商品価格としています）
     @purchase_shipping = PurchaseShipping.new
   end
 
 
   def create
-    @item = Item.find(params[:item_id])
     @purchase_shipping = PurchaseShipping.new(purchase_params)
     if @purchase_shipping.valid?
       pay_item
@@ -39,9 +39,13 @@ class PurchasesController < ApplicationController
     end
   end
 
+  def set_tweet
+    @item = Item.find(params[:item_id])
+  end
+
   # トークンを使用して支払い処理を行うメソッド
   def pay_item
-    Payjp.api_key = 'sk_test_13e22c33a5421f976a1036ae' # PAY.JPのシークレットキーを設定
+    Payjp.api_key = ENV["PAYJP_SECRET_KEY"]
     charge = Payjp::Charge.create(
       amount: @item.price,
       card: purchase_params[:token],

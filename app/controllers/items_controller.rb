@@ -29,8 +29,7 @@ class ItemsController < ApplicationController
   end
 
   def edit
-    if @item.user == current_user
-    else
+    if @item.user != current_user || @item.purchase.present?
       redirect_to root_path, alert: '自分が出品した商品以外は編集できません。'
     end
   end
@@ -67,6 +66,18 @@ class ItemsController < ApplicationController
 
   def set_item
     @item = Item.find(params[:id])
+  end
+
+  def purchase
+    @item = Item.find(params[:id])
+  
+    if @item.user != current_user && @item.available_for_purchase?
+      # 購入処理を実行（在庫の減少、購入履歴の追加など）
+      @item.purchase_by(current_user)
+      redirect_to root_path, notice: '商品を購入しました。'
+    else
+      redirect_to item_path(@item), alert: '購入できませんでした。'
+    end
   end
 
 

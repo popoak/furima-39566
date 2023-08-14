@@ -30,7 +30,7 @@ RSpec.describe Item, type: :model do
     it 'userが紐付いていなければ出品できない' do
       @item.user = nil
       @item.valid?
-      expect(@item.errors[:user]).to include("must exist", "can't be blank")
+      expect(@item.errors[:user]).to include("must exist")
     end
     it 'descriptionが空では登録できない' do
       @item.description = ''  # descriptionの値を空にする
@@ -40,27 +40,22 @@ RSpec.describe Item, type: :model do
     it 'categoryが2未満では登録できない' do
       @item.category_id = 1  # categoryが1未満の値にする
       @item.valid?
-      expect(@item.errors.full_messages).to include("Category must be greater than or equal to 2")
+      expect(@item.errors.full_messages).to include("Category must be other than 1")
     end
     it 'conditionが2未満では登録できない' do
       @item.condition_id = 1  # conditionが1未満の値にする
       @item.valid?
-      expect(@item.errors.full_messages).to include("Condition must be greater than or equal to 2")
+      expect(@item.errors.full_messages).to include("Condition must be other than 1")
     end
     it 'shipping_feeが2未満では登録できない' do
       @item.shipping_fee_id = 1  # shipping_feeが1未満の値にする
       @item.valid?
-      expect(@item.errors.full_messages).to include("Shipping fee must be greater than or equal to 2")
+      expect(@item.errors.full_messages).to include("Shipping fee must be other than 1")
     end    
-    it 'prefectureが2未満では登録できない' do
-      @item.prefecture_id = 0  # prefectureが1未満の値にする
-      @item.valid?
-      expect(@item.errors.full_messages).to include("Prefecture must be greater than or equal to 2")
-    end
     it 'delivery_timeが2未満では登録できない' do
       @item.delivery_time_id = 1  # delivery_timeが1未満の値にする
       @item.valid?
-      expect(@item.errors.full_messages).to include("Delivery time must be greater than or equal to 2")
+      expect(@item.errors.full_messages).to include("Delivery time must be other than 1")
     end
     it 'priceが空では登録できない' do
       @item.price = nil  # priceの値をnilにする

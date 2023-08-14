@@ -1,9 +1,18 @@
 Rails.application.routes.draw do
   devise_for :users
-  resources :items
   root to: 'items#index'
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
-
-  # Defines the root path route ("/")
-  # root "articles#index"
+  resources :items do
+    resources :purchases
+  end
+  resources :items, only: :show
 end
+
+# Rails.application.routes.draw do
+#   devise_for :users
+#   resources :items do
+#     member do
+#       get 'purchase', to: 'purchases#index'
+#     end
+#   end
+#   root to: 'items#index'
+# end

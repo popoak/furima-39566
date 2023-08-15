@@ -83,6 +83,7 @@ gem 'devise'
 gem 'active_hash'
 gem 'gon'
 gem 'payjp'
+gem 'rails-i18n'
 
 group :production do
   gem 'pg'

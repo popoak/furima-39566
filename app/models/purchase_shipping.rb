@@ -4,13 +4,13 @@ class PurchaseShipping
   attr_accessor :postal_code, :prefecture_id, :city, :address, :building_name, :tel, :user_id, :item_id, :token
 
   with_options presence: true do
-    validates :postal_code, format: { with: /\A\d{3}-\d{4}\z/, message: 'should be in the format XXX-XXXX' }
+    validates :postal_code, format: { with: /\A\d{3}-\d{4}\z/, message: 'は正しい形式で入力してください' }
     validates :city
     validates :address
     validates :token
     validates :user_id
     validates :item_id
-    validates :tel, format: { with: /\A\d{10,11}\z/, message: 'should be 10 or 11 digits' }
+    validates :tel, format: { with: /\A\d{10,11}\z/, message: 'は10桁または11桁で入力してください' }
   end
   validates :prefecture_id, numericality: { other_than: 1 } 
 

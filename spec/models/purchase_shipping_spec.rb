@@ -22,32 +22,32 @@ RSpec.describe PurchaseShipping, type: :model do
       it "tokenが空では登録できないこと" do
         @purchase.token = nil
         @purchase.valid?
-        expect(@purchase.errors.full_messages).to include("Token can't be blank")
+        expect(@purchase.errors.full_messages).to include("トークンを入力してください")
       end
       it 'postal_codeが空だと保存できないこと' do
         @purchase.postal_code = nil
         @purchase.valid?
-        expect(@purchase.errors.full_messages).to include("Postal code can't be blank")
+        expect(@purchase.errors.full_messages).to include("郵便番号を入力してください")
       end
       it 'postal_codeが半角のハイフンを含んだ正しい形式でないと保存できないこと' do
         @purchase.postal_code = '1234567'
         @purchase.valid?
-        expect(@purchase.errors.full_messages).to include("Postal code should be in the format XXX-XXXX")
+        expect(@purchase.errors.full_messages).to include("郵便番号は正しい形式で入力してください")
       end
       it '郵便番号が3桁-4桁でないと保存できないこと' do
         @purchase.postal_code = "1234567"
         @purchase.valid?
-        expect(@purchase.errors.full_messages).to include("Postal code should be in the format XXX-XXXX")
+        expect(@purchase.errors.full_messages).to include("郵便番号は正しい形式で入力してください")
       end
       it 'cityが空だと保存できないこと' do
         @purchase.city = nil
         @purchase.valid?
-        expect(@purchase.errors.full_messages).to include("City can't be blank")
+        expect(@purchase.errors.full_messages).to include("市区町村を入力してください")
       end
       it 'addressが空だと保存できないこと' do
         @purchase.address = nil
         @purchase.valid?
-        expect(@purchase.errors.full_messages).to include("Address can't be blank")
+        expect(@purchase.errors.full_messages).to include("番地を入力してください")
       end
       it 'prefectureを選択していないと保存できないこと' do
         @purchase.prefecture_id = 1
@@ -56,7 +56,7 @@ RSpec.describe PurchaseShipping, type: :model do
       it 'telが空だと保存できないこと' do
         @purchase.tel = nil
         @purchase.valid?
-        expect(@purchase.errors.full_messages).to include("Tel can't be blank")
+        expect(@purchase.errors.full_messages).to include("電話番号を入力してください")
       end
       it 'telが9桁以下の場合登録できない' do
         @purchase.tel = "123456789" # 9桁の番号
